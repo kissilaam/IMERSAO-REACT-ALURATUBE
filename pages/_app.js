@@ -2,6 +2,7 @@ import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { CSSReset } from '../src/components/CSSReset'
 import ColorModeProvider, { ColorModeContext } from '../src/components/Menu/components/ColorMode'
+import RegisterVideo from '../src/components/RegisterVideo'
 
 const theme = {
 	light: {
@@ -21,7 +22,8 @@ const theme = {
 }
 
 //_app.js -> global NextJS definitions
-// ThemeProvider by styled-components
+// ThemeProvider by styled-components -> Provides theme for the whole application
+// ColorModeProvider -> Provides light or dark mode state for the whole application
 
 function ProviderWrapper(props) {
 	return <ColorModeProvider initialMode={'light'}>{props.children}</ColorModeProvider>
@@ -34,6 +36,7 @@ function MyApp({ Component, pageProps }) {
 		<ThemeProvider theme={theme[context.mode]}>
 			<CSSReset />
 			<Component {...pageProps} />
+			<RegisterVideo />
 		</ThemeProvider>
 	)
 }

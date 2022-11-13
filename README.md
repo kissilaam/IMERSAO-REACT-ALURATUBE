@@ -2,6 +2,11 @@
 
 Projeto da Imersão React v5 da Alura, criando uma página mirror do YouTube com o React. O objetivo é praticar o uso do React.
 
+-`_app.js`: Carrega o setup base do projeto.
+
+- Aqui vão ficar os Providers de informação do projeto.
+  -CSSReset.
+
 | :placard: Vitrine.Dev |                                                      |
 | --------------------- | ---------------------------------------------------- |
 | :sparkles: Nome       | **Aluratube**                                        |
