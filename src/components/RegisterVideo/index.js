@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyledRegisterVideo } from './styles'
+import { createClient } from '@supabase/supabase-js'
 
 //? custom hook
 function useForm(formProps) {
@@ -20,6 +21,25 @@ function useForm(formProps) {
 		}
 	}
 }
+
+const PROJECT_URL = 'https://bdwwzikfdsegyeiwlfvj.supabase.co'
+const PUBLIC_KEY =
+	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkd3d6aWtmZHNlZ3llaXdsZnZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgzNjM3MzgsImV4cCI6MTk4MzkzOTczOH0.bfCfqpvy32_tPAnZ1b9hO8mOotyltoQqhMMo7H0eNIg'
+const supabase = createClient(PROJECT_URL, PUBLIC_KEY)
+
+// get outube thumbnail from video url
+function getThumbnail(url) {
+	return `https://img.youtube.com/vi/${url.split('v=')[1]}/hqdefault.jpg`
+}
+
+// function getVideoId(url) {
+// 	const videoId = url.split('v=')[1]
+// 	const ampersandPosition = videoId.indexOf('&')
+// 	if (ampersandPosition !== -1) {
+// 		return videoId.substring(0, ampersandPosition)
+// 	}
+// 	return videoId
+// }
 
 export default function RegisterVideo() {
 	const logForm = useForm({
@@ -45,6 +65,23 @@ export default function RegisterVideo() {
 				<form
 					onSubmit={event => {
 						event.preventDefault()
+
+						//? contract between frontend and backend
+						supabase
+							.from('video')
+							.insert({
+								title: logForm.values.title,
+								url: logForm.values.url,
+								thumb: getThumbnail(logForm.values.url),
+								playlist: 'jogos'
+							})
+							.then(oqueveio => {
+								console.log(oqueveio)
+							})
+							.catch(err => {
+								console.log(err)
+							})
+
 						setVisibleForm(false)
 						logForm.clearForm()
 					}}

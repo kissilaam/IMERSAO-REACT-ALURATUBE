@@ -4,12 +4,35 @@ import styled from 'styled-components'
 import Menu from '../src/components/Menu'
 import { StyledTimeline } from '../src/components/Timeline'
 
+import { videoService } from '../src/services/videoServices'
+
 function HomePage() {
 	const homepageStyles = {
 		//backgroundColor: 'red'
 	}
 
+	const service = videoService()
 	const [filterValue, setFilterValue] = React.useState('')
+	const [playlists, setPlaylists] = React.useState({})
+	// const playlists = {
+	// 	jogos: []
+	// }
+
+	React.useEffect(() => {
+		console.log('useEffect')
+		service.getAllVideos().then(dados => {
+			console.log(dados.data)
+			// forma imutável
+			const novasPlaylists = { ...playlists }
+			dados.data.forEach(video => {
+				if (!novasPlaylists[video.playlist]) {
+					novasPlaylists[video.playlist] = []
+				}
+				novasPlaylists[video.playlist].push(video)
+			})
+			setPlaylists(novasPlaylists)
+		})
+	}, [])
 
 	return (
 		<>
@@ -49,7 +72,7 @@ const StyledHeader = styled.div`
 `
 
 const StyledBanner = styled.div`
-	background-color: blue;
+	background-size: cover;
 	//background-image: url(${config.bg}); //? for when you have a global config
 	background-image: url(${({ bg }) => bg}); //? for when you don't, and pass the bg as prop
 	height: 230px;
